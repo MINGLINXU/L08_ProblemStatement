@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">L08_ProblemStatement</string>
+
+    <string-array name="Location_name">
+        <item>Choose one location...</item>
+        <item>North-HQ</item>
+        <item>Central</item>
+        <item>East</item>
+    </string-array>
 </resources>

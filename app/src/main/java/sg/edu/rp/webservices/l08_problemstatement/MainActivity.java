@@ -10,7 +10,9 @@ import android.Manifest;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -25,7 +27,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btn1, btn2, btn3;
+    Spinner spinner;
     private GoogleMap map;
     Marker north, east, central;
     LatLng poi_central, poi_east, poi_north;
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.e("GMap - Permission", "GPS access has not been granted");
                     ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
                 }
+
                 poi_central = new LatLng(1.288588, 103.860342);
                 central = map.addMarker(new MarkerOptions().position(poi_central).title("Central").snippet("Block 3A, Orchard Ave 3, 134542 \n" +
                         "Operating hours: 11am-8pm\n" + "Tel:67788652\n").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
@@ -78,42 +81,43 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "HQ-North", Toast.LENGTH_SHORT).show();
                 }
 
+                spinner = findViewById(R.id.spinner);
+
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        String location = parent.getItemAtPosition(position).toString();
+                        if(location.equals("North-HQ")){
+                            if(map != null){
+                                map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_north,15));
+                            }
+                        }
+                        else if(location.equals("Central")){
+                            if(map != null){
+                                map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_central,15));
+                            }
+                        }
+                        else if(location.equals("East")){
+                            if(map != null){
+                                map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_east,15));
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+
+
+
+
+
+
 
             }
         });
-
-        btn1 = findViewById(R.id.btn1);
-        btn2 = findViewById(R.id.btn2);
-        btn3 = findViewById(R.id.btn3);
-
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(map != null){
-                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_north,15));
-                }
-            }
-        });
-
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(map != null){
-                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_central,15));
-                }
-            }
-        });
-
-        btn3.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                if(map != null){
-                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi_east,15));
-                }
-            }
-        });
-
 
 
     }
