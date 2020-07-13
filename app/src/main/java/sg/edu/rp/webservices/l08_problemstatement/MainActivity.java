@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -57,8 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 poi_central = new LatLng(1.288588, 103.860342);
                 central = map.addMarker(new MarkerOptions().position(poi_central).title("Central").snippet("Block 3A, Orchard Ave 3, 134542 \n" +
-                        "Operating hours: 11am-8pm\n" +
-                        "Tel:67788652\n").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                        "Operating hours: 11am-8pm\n" + "Tel:67788652\n").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
 
                 poi_east = new LatLng(1.328815, 103.943051);
                 east = map.addMarker(new MarkerOptions().position(poi_east).title("East").snippet("Block 555, Tampines Ave 3, 287788 \n" +
@@ -67,6 +67,16 @@ public class MainActivity extends AppCompatActivity {
                 poi_north = new LatLng(1.44224, 103.785733);
                 north = map.addMarker(new MarkerOptions().position(poi_north).title("HQ-North").snippet("Block 333, Admiralty Ave 3, 765654 Operating hours: 10am-5pm\n" +
                         "Tel:65433456\n").icon(BitmapDescriptorFactory.fromResource(android.R.drawable.star_big_on)));
+
+                if ( central.isInfoWindowShown()){
+                    Toast.makeText(MainActivity.this, "Central", Toast.LENGTH_SHORT).show();
+                }
+                else if(east.isInfoWindowShown()){
+                    Toast.makeText(MainActivity.this, "East", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(MainActivity.this, "HQ-North", Toast.LENGTH_SHORT).show();
+                }
 
 
             }
@@ -103,6 +113,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+
 
     }
 }
